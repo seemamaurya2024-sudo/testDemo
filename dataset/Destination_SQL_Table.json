@@ -1,0 +1,23 @@
+{
+	"name": "Destination_SQL_Table",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"D_schema_name": {
+				"type": "string",
+				"defaultValue": "a"
+			},
+			"D_table_name": {
+				"type": "string",
+				"defaultValue": "a"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

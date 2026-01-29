@@ -1,0 +1,101 @@
+{
+	"name": "blob_to_db",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "insert",
+						"sqlWriterUseTableLock": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "input",
+						"type": "DatasetReference",
+						"parameters": {
+							"folder_name": "a",
+							"file_name": "a"
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Source_SQL_Table",
+						"type": "DatasetReference",
+						"parameters": {
+							"sehema": "a",
+							"table_name": "a"
+						}
+					}
+				]
+			},
+			{
+				"name": "Web1",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "Copy data1",
+						"dependencyConditions": [
+							"Failed"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"method": "POST",
+					"headers": {
+						"contant.type": "application/jsan"
+					},
+					"url": "https://prod-09.northcentralus.logic.azure.com:443/workflows/4bbbd87906084f7085bf21b903bd7409/triggers/When_an_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_an_HTTP_request_is_received%2Frun&sv=1.0&sig=NOUZVtU5M0P24OhZX28iilgcG5mlWt5LSwhlpVozKEM",
+					"body": {
+						"value": "@pipelinename:\nerrormessage:\nadfname:\npipelineid:",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2026-01-15T07:33:32Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

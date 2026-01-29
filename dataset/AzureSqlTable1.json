@@ -1,0 +1,37 @@
+{
+	"name": "AzureSqlTable1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "department_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "department_name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "manager_id",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "location_id",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "dept"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
