@@ -1,0 +1,44 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlTable1",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "window1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          department_id as integer,",
+				"          department_name as string,",
+				"          manager_id as integer,",
+				"          location_id as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source1",
+				"source1 window(over(department_id),",
+				"     asc(manager_id, true),",
+				"     rangeSpecified: true,",
+				"     department_id = denseRank(),",
+				"          column1 = ERROR_FUNCTION(''),",
+				"     partitionBy('key',",
+				"          0,",
+				"          ERROR_FUNCTION('')",
+				"     )) ~> window1"
+			]
+		}
+	}
+}
